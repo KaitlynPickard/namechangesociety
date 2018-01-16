@@ -1,11 +1,12 @@
+const config = require("./config.json")
 const { Pool, Client } = require('pg')
 
 const pool = new Pool({
-  user: 'master',
-  host: 'namechangesociety.czbofrhxjkpq.ap-southeast-2.rds.amazonaws.com',
-  database: 'namechanges',
-  password: 'mypassword',
-  port: 5432,
+  user: config.dbuser,
+  host: config.dbhost,
+  database: config.dbdatabase,
+  password: config.dbpassword,
+  port: config.dbport,
 })
 
 pool.query('SELECT * FROM public."NAMES"', (err, res) => {

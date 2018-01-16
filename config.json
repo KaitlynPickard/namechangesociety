@@ -1,0 +1,7 @@
+{
+  "dbuser" : "master",
+  "dbhost" : "namechangesociety.czbofrhxjkpq.ap-southeast-2.rds.amazonaws.com",
+  "dbdatabase" : "namechanges",
+  "dbpassword" : "mypassword",
+  "dbport" : "5432"
+}
