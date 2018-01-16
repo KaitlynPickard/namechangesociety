@@ -1,9 +1,13 @@
-var http = require('http');
+var db = require("./db.js");
 
-var server = http.createServer(function(request, response) {
-	console.log("Got a request");
-	response.write("hi");
-	response.end();
-});
+db.query('SELECT * FROM public."NAMES"');
 
-server.listen(3000);
+// var http = require('http');
+
+// var server = http.createServer(function(request, response) {
+// 	console.log("Got a request");
+// 	response.write("hi");
+// 	response.end();
+// });
+
+// server.listen(3000);
