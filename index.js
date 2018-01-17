@@ -1,6 +1,10 @@
-var db = require("./db.js");
+let db = require("./server/db.js");
 
-db.query('SELECT * FROM public."NAMES"');
+let result = db.query('SELECT * FROM public."NAMES"', [])
+			.then(result => console.log(result[0].FIRSTNAME))
+			.catch(function () {
+     console.log("Promise Rejected");
+});
 
 // var http = require('http');
 
