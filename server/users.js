@@ -2,16 +2,47 @@ let db = require('./db');
 
 // let escape = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
+let createUser = (req, res) => {
+	// let plainTextPassword = req.params.password;
+	let userID = createUserID()
+		.then(result => {
+			return res.send(result.toString())
+		})
+		.catch(function () {
+			console.log("Promise Rejected");
+		});
+}
+
+function createUserID() {
+	let minID = 111111;
+	let maxID = 999999;
+	let userID = Math.floor(Math.random() * (maxID - minID + 1) ) + minID;
+	
+	return new Promise((resolve, reject) => {
+		let result = db.query('SELECT COUNT("USERID") as count FROM public."USERS" WHERE "USERID" = $1', [userID])
+			.then(result => {
+				if (result[0].count == 0) {
+					resolve(userID);
+				} else {
+					return createUserID();
+				}
+			})
+			.catch(function () {
+ 				console.log("Promise Rejected");
+			});
+	});
+}
+
 let getAllUsers = (req, res) => {
 	let id = req.params.id;
 
 	let result = db.query('SELECT * FROM public."NAMES"', [])
-			.then(result => {
-                    return res.send(result);
-                })
-			.catch(function () {
-     	console.log("Promise Rejected");
-	});
+		.then(result => {
+            return res.send(result);
+        })
+		.catch(function () {
+ 			console.log("Promise Rejected");
+		});
 }
 
 let getUser = (req, res) => {
@@ -19,16 +50,17 @@ let getUser = (req, res) => {
 	console.log(id)
 
 	let result = db.query('SELECT * FROM public."NAMES" WHERE "USERID" = $1', [id])
-			.then(result => {
-                    return res.send(result[0].FIRSTNAME);
-                })
-			.catch(function () {
-     	console.log("Promise Rejected");
-	});
+		.then(result => {
+            return res.send(result[0].FIRSTNAME);
+        })
+		.catch(function () {
+ 			console.log("Promise Rejected");
+		});
 }
 
 exports.getUser = getUser;
 exports.getAllUsers = getAllUsers;
+exports.createUser = createUser;
 
 // let findAll = (req, res, next) => {
 

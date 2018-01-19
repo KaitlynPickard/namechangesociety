@@ -9,8 +9,6 @@ const databaseConnection = {
 };
 
 exports.query = function (sql, values) {
-    console.log("sql: " + sql);
-    console.log("values: " + values[0]);
 
 	return new Promise((resolve, reject) => {
 		let pool;
@@ -22,6 +20,7 @@ exports.query = function (sql, values) {
 			reject(e);
 		}
         pool.connect(function (err, conn, done) {
+
             if (err) return reject(err);
             try {
                 conn.query(sql, values, function (err, result) {
