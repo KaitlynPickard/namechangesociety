@@ -8,7 +8,9 @@ const databaseConnection = {
 	port: config.dbport,
 };
 
-exports.query = function (sql, values) {	
+exports.query = function (sql, values) {
+    console.log("sql: " + sql);
+    console.log("values: " + values[0]);
 
 	return new Promise((resolve, reject) => {
 		let pool;
