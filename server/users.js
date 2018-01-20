@@ -9,37 +9,37 @@ let getUserName = (req, res) => {
 	return res.send("userID: " + userID + " Date: " + date);
 }
 
-// let getUserNameHistory = (req, res) => {
-// 	let userID = req.params.userID;
-// 	return res.send("username history");
-// }
+let getUserNameHistory = (req, res) => {
+	let userID = req.params.userID;
+	return res.send("userID: " + userID);
+}
 
-// let getUserQueuedName = (req, res) => {
-// 	let userID = req.params.userID;
-// 	return res.send("queued username");
-// }
+let getUserQueuedName = (req, res) => {
+	let userID = req.params.userID;
+	return res.send("userID: " + userID);
+}
 
-// let checkIfCurrentNameExpired = (req, res) => {
-// 	let userID = req.params.userID;
-// 	return res.send("false");
-// }
+let checkIfCurrentNameExpired = (req, res) => {
+	let userID = req.params.userID;
+	return res.send("userID: " + userID);
+}
 
-// let getExpiringNames = (req, res) => {
-// 	return res.send("expiring usernames");
-// }
+let getExpiringNames = (req, res) => {
+	return res.send("expiring usernames");
+}
 
-// let setUserName = (req, res) => {
-// 	let userID = req.params.userID;
-// 	let date = req.params.date;
-// 	return res.send("set username");
-// }
+let setUserName = (req, res) => {
+	let userID = req.params.userID;
+	let startDate = (typeof req.params.startDate === 'undefined') ? todaysDate : req.params.startDate;
+	return res.send("userID: " + userID + " Date: " + startDate);
+}
 
 exports.getUserName = getUserName;
-// exports.getUserNameHistory = getUserNameHistory;
-// exports.getUserQueuedName = getUserQueuedName;
-// exports.checkIfCurrentNameExpired = checkIfCurrentNameExpired;
-// exports.getExpiringNames = getExpiringNames;
-// exports.setUserName = setUserName;
+exports.getUserNameHistory = getUserNameHistory;
+exports.getUserQueuedName = getUserQueuedName;
+exports.checkIfCurrentNameExpired = checkIfCurrentNameExpired;
+exports.getExpiringNames = getExpiringNames;
+exports.setUserName = setUserName;
 
 // let createUser = (req, res) => {
 // 	// let plainTextPassword = req.params.password;
