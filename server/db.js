@@ -8,7 +8,7 @@ const databaseConnection = {
 	port: config.dbport,
 };
 
-exports.query = function (sql, values) {	
+exports.query = function (sql, values) {
 
 	return new Promise((resolve, reject) => {
 		let pool;
@@ -20,6 +20,7 @@ exports.query = function (sql, values) {
 			reject(e);
 		}
         pool.connect(function (err, conn, done) {
+
             if (err) return reject(err);
             try {
                 conn.query(sql, values, function (err, result) {
