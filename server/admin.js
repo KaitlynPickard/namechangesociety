@@ -4,30 +4,40 @@ let todaysDate = new Date();
 // let escape = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 let getAllUsersNames = (req, res) => {
-	let date = (typeof req.params.date === 'undefined') ? todaysDate : req.params.date;
-	return res.send(" Date: " + date);
+	let date = (typeof req.params.date === 'undefined') ? new Date(todaysDate.toString()) : new Date(req.params.date);
+	let result = db.query('SELECT "FIRSTNAME", "LASTNAME" FROM public."NAMES" WHERE "STARTDATE" <= $1 AND "ENDDATE" >= $1', [date])
+		.then(result => {
+			return res.send(result);
+		})
+		.catch(function () {
+				console.log("Promise Rejected");
+		});
 }
 
 let getAllQueuedNames = (req, res) => {
-	return res.send("List of all queued name changes");
+	let result = db.query('SELECT "FIRSTNAME", "LASTNAME" FROM public."NAMES" WHERE "STARTDATE" > $1', [todaysDate])
+	.then(result => {
+        return res.send(result);
+    })
+	.catch(function () {
+		console.log("Promise Rejected");
+	});
 }
 
+// TODO
+// this function can be combined with getExpiringNames into one function that takes a date variable
 let getExpiredNames = (req, res) => {
-	return res.sent("List of all users whose current name has expired");
+	let result = db.query('SELECT names."FIRSTNAME", names."LASTNAME" FROM public."NAMES" names \
+		INNER JOIN (SELECT "USERID", MAX("ENDDATE") AS MaxEndDate FROM public."NAMES" GROUP BY "USERID") latestnames \
+		ON names."USERID" = latestnames."USERID" AND names."ENDDATE" = latestnames.MaxEndDate WHERE names."ENDDATE" < $1', [todaysDate])
+	.then(result => {
+        return res.send(result);
+    })
+	.catch(function () {
+		console.log("Promise Rejected");
+	});
 }
 
 exports.getAllUsersNames = getAllUsersNames;
 exports.getAllQueuedNames = getAllQueuedNames;
 exports.getExpiredNames = getExpiredNames;
-
-// let getAllUsers = (req, res) => {
-// 	let id = req.params.id;
-
-// 	let result = db.query('SELECT * FROM public."NAMES"', [])
-// 		.then(result => {
-//             return res.send(result);
-//         })
-// 		.catch(function () {
-//  			console.log("Promise Rejected");
-// 		});
-// }
