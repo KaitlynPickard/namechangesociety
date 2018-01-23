@@ -13,8 +13,8 @@ let getUserName = (req, res) => {
 		.then(result => {
 			return res.send(result);
 		})
-		.catch(function () {
-		console.log("Promise Rejected");
+		.catch(function (error) {
+			return res.send("ERROR: " + error);
 		});
 }
 
@@ -25,7 +25,7 @@ function getUserNameForDate(userID, date) {
 				resolve(result);
 			})
 			.catch(function () {
- 				console.log("Promise Rejected");
+				reject("ERROR - DB connection failed whil getting user's name on specific date.");
 			});
 	});
 }
@@ -37,8 +37,8 @@ let getUserNameHistory = (req, res) => {
 	.then(result => {
         return res.send(result);
     })
-	.catch(function () {
-		console.log("Promise Rejected");
+	.catch(function (error) {
+		return res.send("ERROR: " + error);
 	});
 }
 
@@ -49,8 +49,8 @@ let getUserQueuedName = (req, res) => {
 	.then(result => {
         return res.send(result);
     })
-	.catch(function () {
-		console.log("Promise Rejected");
+	.catch(function (error) {
+		return res.send("ERROR: " + error);
 	});
 }
 
@@ -65,8 +65,8 @@ let checkIfCurrentNameExpired = (req, res) => {
 				return res.send(false);
 			}
 		})
-		.catch(function () {
-		console.log("Promise Rejected");
+		.catch(function (error) {
+			return res.send("ERROR: " + error);
 		});
 }
 
@@ -82,8 +82,8 @@ let getExpiringNames = (req, res) => {
 	.then(result => {
         return res.send(result);
     })
-	.catch(function () {
-		console.log("Promise Rejected");
+	.catch(function (error) {
+		return res.send("ERROR: " + error);
 	});
 }
 
@@ -107,21 +107,21 @@ function validateNewName(userID, newFirstName, newLastName, newNameStartDate) {
 							}
 					    })
 						.catch(function () {
-							console.log("Promise Rejected");
+							reject("ERROR - DB connection failed while trying to check if name is not already taken.");
 						});
 					} else {
 						reject("ERROR - You have already used this name previously.");
 					}
 			    })
 				.catch(function () {
-					console.log("Promise Rejected");
+					reject("ERROR - DB connection failed while trying to check if user has previously used this name.");
 				});
 			} else {
 				reject("ERROR - You already have a name queued.");
 			}
 		})
 		.catch(function () {
-			console.log("Promise Rejected");
+			reject("ERROR - DB connection failed while trying to check if user does not already have a name queued.");
 		});
 	});
 }
@@ -160,16 +160,16 @@ let setUserName = (req, res) => {
 			.then(result => {
 				return res.send("New name has been successfully queued");
 			})
-			.catch(function () {
-				console.log("Promise Rejected");
+			.catch(function (error) {
+				return res.send("ERROR: " + error);
 			});
 		})
-		.catch(function () {
-			console.log("Promise Rejected");
+		.catch(function (error) {
+			return res.send("ERROR: " + error);
 		});
 	})
 	.catch(function (error) {
-		console.log(error);
+		return res.send("ERROR: " + error);
 	});
 }
 
@@ -179,3 +179,4 @@ exports.getUserQueuedName = getUserQueuedName;
 exports.checkIfCurrentNameExpired = checkIfCurrentNameExpired;
 exports.getExpiringNames = getExpiringNames;
 exports.setUserName = setUserName;
+exports.validateNewName = validateNewName;

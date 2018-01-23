@@ -1,25 +1,57 @@
 let db = require('./db');
 let crypto = require('crypto');
 let shortid = require('shortid');
+let users = require('./users');
+let todaysDate = new Date();
 
 // let escape = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
 let createUser = (req, res) => {
+	let firstName = req.params.firstName;
+	let lastName = req.params.lastName;
 	let plainTextPassword = req.params.password;
+
+	let numDaysNameIsValid = 364;
+	let nameEndDate = new Date();
+	nameEndDate.setDate(nameEndDate.getDate() + numDaysNameIsValid);
+
+	// Create a new user ID - the validateNewName function requires an ID to be passed
 	let newUser = createUserID()
 		.then(userID => {
-			let newSalt = createSalt()
-			.then(salt => {
-				let hashedPassword = createHashedPassword(plainTextPassword, salt);
-				return res.send(userID.toString() + " : " + salt.toString() + " : " + hashedPassword);
-			})
-			.catch(function () {
-				console.log("Promise Rejected");
-			});
-			// return res.send(result.toString())
+			// Validate the first name entry for the user - we do not want to create their account without a valid name to enter
+			let validateName = users.validateNewName(userID, firstName, lastName, todaysDate)
+				.then(result => {
+					// If the name is valid, continue with the creation of the new user, and create an entry for their initial name
+					let newSalt = createSalt()
+						.then(salt => {
+							let hashedPassword = createHashedPassword(plainTextPassword, salt);
+							let createNewUser = db.query('INSERT INTO public."USERS"("USERID", "SALT", "PASSWORD") \
+								VALUES ($1, $2, $3)', [userID, salt, hashedPassword])
+								.then(result => {
+									let createNewName = db.query('INSERT INTO public."NAMES"(\
+											"USERID", "FIRSTNAME", "LASTNAME", "STARTDATE", "ENDDATE") \
+											VALUES ($1, $2, $3, $4, $5);', [userID, firstName, lastName, todaysDate, nameEndDate])
+										.then(result => {
+											return res.send("UserID: " + userID + " with name " + firstName + " " + lastName + " has been created.");
+										})
+										.catch(function (error) {
+											return res.send("ERROR: " + error);
+										});
+								})
+								.catch(function (error) {
+					 				return res.send("ERROR: " + error);
+								});
+						})
+						.catch(function (error) {
+							return res.send("ERROR: " + error);
+						});
+				})
+				.catch(function (error) {
+					return res.send("ERROR: " + error);
+				});
 		})
-		.catch(function () {
-			console.log("Promise Rejected");
+		.catch(function (error) {
+			return res.send("ERROR: " + error);
 		});
 }
 
@@ -37,7 +69,7 @@ function createUserID() {
 				}
 			})
 			.catch(function () {
- 				console.log("Promise Rejected");
+ 				reject("ERROR - DB connection failed while trying to create new userID.");
 			});
 	});
 }
@@ -58,7 +90,7 @@ function createSalt() {
 				}
 			})
 			.catch(function () {
- 				console.log("Promise Rejected");
+ 				reject("ERROR - DB connection failed while trying to create new salt value.");
 			});
 	});
 }

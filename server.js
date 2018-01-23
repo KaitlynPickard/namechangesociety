@@ -21,7 +21,7 @@ app.get('/getAllUsersNames', admin.getAllUsersNames);
 app.get('/getAllQueuedNames', admin.getAllQueuedNames);
 app.get('/getExpiredNames', admin.getExpiredNames);
 
-app.get('/createUser/:password', auth.createUser);
+app.get('/createUser/:firstName/:lastName/:password', auth.createUser);
 
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
