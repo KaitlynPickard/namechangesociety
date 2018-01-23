@@ -1,4 +1,5 @@
 let db = require('./db');
+let shortid = require('shortid');
 let todaysDate = new Date();
 
 // let escape = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -14,11 +15,9 @@ let createUser = (req, res) => {
 		});
 }
 
-function createUserID() {
-	let minID = 111111;
-	let maxID = 999999;
-	let userID = Math.floor(Math.random() * (maxID - minID + 1) ) + minID;
-	
+function createUserID() {	
+	let userID = shortid.generate(); // generates random id that is 9 characters long and is a mix of number and letters - eg. Sk7l1q4Bf
+
 	return new Promise((resolve, reject) => {
 		let result = db.query('SELECT COUNT("USERID") as count FROM public."USERS" WHERE "USERID" = $1', [userID])
 			.then(result => {
