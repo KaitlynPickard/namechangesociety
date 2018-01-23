@@ -7,7 +7,7 @@ tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
 
 let getUserName = (req, res) => {
 	let userID = req.params.userID;
-	let date = (typeof req.params.date === 'undefined') ? todaysDate : req.params.date;
+	let date = (typeof req.params.date === 'undefined') ? new Date(todaysDate.toString()) : req.params.date;
 
 	let result = getUserNameForDate(userID, date)
 		.then(result => {
