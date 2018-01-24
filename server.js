@@ -6,9 +6,7 @@ let app = express();
 
 app.set('port', process.env.PORT || 3000);
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-})
+app.use('/', express.static(__dirname + '/www'));
 
 app.get('/getUserName/:userID/:date?', users.getUserName);
 app.get('/getUserNameHistory/:userID', users.getUserNameHistory);
