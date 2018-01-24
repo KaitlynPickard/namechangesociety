@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import * as productService from './services/product-service';
+import * as usersService from './services/users-service';
 
 class App extends React.Component {
 
@@ -15,7 +15,7 @@ class App extends React.Component {
     }
 
     getExpiringNames() {
-        productService.getExpiringNames()
+        usersService.getExpiringNames()
             .then(data => {
                 this.setState({
                     expiringNames: data

@@ -56,9 +56,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _productService = __webpack_require__(184);
+	var _usersService = __webpack_require__(184);
 	
-	var productService = _interopRequireWildcard(_productService);
+	var usersService = _interopRequireWildcard(_usersService);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -91,7 +91,7 @@
 	        value: function getExpiringNames() {
 	            var _this2 = this;
 	
-	            productService.getExpiringNames().then(function (data) {
+	            usersService.getExpiringNames().then(function (data) {
 	                _this2.setState({
 	                    expiringNames: data
 	                });
