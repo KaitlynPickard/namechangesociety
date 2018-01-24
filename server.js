@@ -1,8 +1,8 @@
-let express = require('express'),
-    users = require('./server/users'),
-    admin = require('./server/admin'),
-    auth = require('./server/auth'),
-    app = express();
+let express = require('express');
+let users = require('./server/users');
+let admin = require('./server/admin');
+let auth = require('./server/auth');
+let app = express();
 
 app.set('port', process.env.PORT || 3000);
 

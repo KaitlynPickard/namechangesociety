@@ -25,7 +25,7 @@ function getUserNameForDate(userID, date) {
 				resolve(result);
 			})
 			.catch(function () {
-				reject("ERROR - DB connection failed whil getting user's name on specific date.");
+				reject("DB connection failed whil getting user's name on specific date.");
 			});
 	});
 }
@@ -103,25 +103,25 @@ function validateNewName(userID, newFirstName, newLastName, newNameStartDate) {
 							if (result.length == 0) {
 								resolve();
 							} else {
-								reject("ERROR - This name is taken for the period in which you wish to use it.");
+								reject("This name is taken for the period in which you wish to use it.");
 							}
 					    })
 						.catch(function () {
-							reject("ERROR - DB connection failed while trying to check if name is not already taken.");
+							reject("DB connection failed while trying to check if name is not already taken.");
 						});
 					} else {
-						reject("ERROR - You have already used this name previously.");
+						reject("You have already used this name previously.");
 					}
 			    })
 				.catch(function () {
-					reject("ERROR - DB connection failed while trying to check if user has previously used this name.");
+					reject("DB connection failed while trying to check if user has previously used this name.");
 				});
 			} else {
-				reject("ERROR - You already have a name queued.");
+				reject("You already have a name queued.");
 			}
 		})
 		.catch(function () {
-			reject("ERROR - DB connection failed while trying to check if user does not already have a name queued.");
+			reject("DB connection failed while trying to check if user does not already have a name queued.");
 		});
 	});
 }

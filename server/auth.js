@@ -56,8 +56,7 @@ let createUser = (req, res) => {
 }
 
 function createUserID() {
-	// TODO make sure this doesn't include special characters
-	let userID = shortid.generate(); // generates random id that is 9 characters long and is a mix of number and letters - eg. Sk7l1q4Bf
+	let userID = shortid.generate(); // generates random id that is 9 characters long eg. Sk7l1q4Bf
 
 	return new Promise((resolve, reject) => {
 		let result = db.query('SELECT COUNT("USERID") as count FROM public."USERS" WHERE "USERID" = $1', [userID])
@@ -69,7 +68,7 @@ function createUserID() {
 				}
 			})
 			.catch(function () {
- 				reject("ERROR - DB connection failed while trying to create new userID.");
+ 				reject("DB connection failed while trying to create new userID.");
 			});
 	});
 }
@@ -90,7 +89,7 @@ function createSalt() {
 				}
 			})
 			.catch(function () {
- 				reject("ERROR - DB connection failed while trying to create new salt value.");
+ 				reject("DB connection failed while trying to create new salt value.");
 			});
 	});
 }

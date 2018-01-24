@@ -9,8 +9,8 @@ let getAllUsersNames = (req, res) => {
 		.then(result => {
 			return res.send(result);
 		})
-		.catch(function () {
-				console.log("Promise Rejected");
+		.catch(function (error) {
+			return res.send("ERROR: " + error);
 		});
 }
 
@@ -19,8 +19,8 @@ let getAllQueuedNames = (req, res) => {
 	.then(result => {
         return res.send(result);
     })
-	.catch(function () {
-		console.log("Promise Rejected");
+	.catch(function (error) {
+		return res.send("ERROR: " + error);
 	});
 }
 
@@ -33,8 +33,8 @@ let getExpiredNames = (req, res) => {
 	.then(result => {
         return res.send(result);
     })
-	.catch(function () {
-		console.log("Promise Rejected");
+	.catch(function (error) {
+		return res.send("ERROR: " + error);
 	});
 }
 
