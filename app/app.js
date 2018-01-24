@@ -4,59 +4,31 @@ import ReactDOM from 'react-dom';
 import * as productService from './services/product-service';
 
 class App extends React.Component {
-    constructor() {
-        super();
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: "Welcome",
+            expiringNames: ["Getting user data..."]
+        }
+        this.getExpiringNames();
     }
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         searchKey: "",
-    //         min: 0,
-    //         max: 30,
-    //         products: [],
-    //         total: 0,
-    //         page: 1
-    //     }
-    // }
-
-    // componentDidMount() {
-    //     this.findProducts();
-    // }
-
-    // searchKeyChangeHandler(searchKey) {
-    //     this.setState({searchKey: searchKey, page: 1}, this.findProducts);
-    // }
-
-    // rangeChangeHandler(values) {
-    //     this.setState({min: values[0], max: values[1], page: 1}, this.findProducts);
-    // }
-
-    // findProducts() {
-    //     productService.findAll({search: this.state.searchKey, min: this.state.min, max: this.state.max, page: this.state.page})
-    //         .then(data => {
-    //             this.setState({
-    //                 products: data.products,
-    //                 page: data.page,
-    //                 pageSize: data.pageSize,
-    //                 total: data.total
-    //             });
-    //         });
-    // }
-
-    // nextPageHandler() {
-    //     let p = this.state.page + 1;
-    //     this.setState({page: p}, this.findProducts);
-    // }
-
-    // prevPageHandler() {
-    //     let p = this.state.page - 1;
-    //     this.setState({page: p}, this.findProducts);
-    // }
+    getExpiringNames() {
+        productService.getExpiringNames()
+            .then(data => {
+                this.setState({
+                    expiringNames: data
+                });
+            });
+    }
 
     render() {
         return (
-                <h1>Testing</h1>
+            <div>
+                <h1>{this.state.title}</h1>
+                <p>{this.state.expiringNames}</p>
+            </div>
         );
     }
 };

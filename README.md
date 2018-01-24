@@ -1,5 +1,6 @@
 // NAME CHANGE SOCIETY //
 This application was built using the following as a reference: https://github.com/ccoenraets/belgian-beer-explorer/archive/master.zip
+Trello board: https://trello.com/b/qhvquL81/name-change-society
 
 1. Install the latest version of Node.js (https://nodejs.org).
 
@@ -9,4 +10,4 @@ This application was built using the following as a reference: https://github.co
 
 3. Type the following command to start the server:
     
-    npm start
+    node server.js

@@ -73,65 +73,46 @@
 	var App = function (_React$Component) {
 	    _inherits(App, _React$Component);
 	
-	    function App() {
+	    function App(props) {
 	        _classCallCheck(this, App);
 	
-	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	
+	        _this.state = {
+	            title: "Welcome",
+	            expiringNames: ["Getting user data..."]
+	        };
+	        _this.getExpiringNames();
+	        return _this;
 	    }
 	
-	    // constructor(props) {
-	    //     super(props);
-	    //     this.state = {
-	    //         searchKey: "",
-	    //         min: 0,
-	    //         max: 30,
-	    //         products: [],
-	    //         total: 0,
-	    //         page: 1
-	    //     }
-	    // }
-	
-	    // componentDidMount() {
-	    //     this.findProducts();
-	    // }
-	
-	    // searchKeyChangeHandler(searchKey) {
-	    //     this.setState({searchKey: searchKey, page: 1}, this.findProducts);
-	    // }
-	
-	    // rangeChangeHandler(values) {
-	    //     this.setState({min: values[0], max: values[1], page: 1}, this.findProducts);
-	    // }
-	
-	    // findProducts() {
-	    //     productService.findAll({search: this.state.searchKey, min: this.state.min, max: this.state.max, page: this.state.page})
-	    //         .then(data => {
-	    //             this.setState({
-	    //                 products: data.products,
-	    //                 page: data.page,
-	    //                 pageSize: data.pageSize,
-	    //                 total: data.total
-	    //             });
-	    //         });
-	    // }
-	
-	    // nextPageHandler() {
-	    //     let p = this.state.page + 1;
-	    //     this.setState({page: p}, this.findProducts);
-	    // }
-	
-	    // prevPageHandler() {
-	    //     let p = this.state.page - 1;
-	    //     this.setState({page: p}, this.findProducts);
-	    // }
-	
 	    _createClass(App, [{
+	        key: 'getExpiringNames',
+	        value: function getExpiringNames() {
+	            var _this2 = this;
+	
+	            productService.getExpiringNames().then(function (data) {
+	                _this2.setState({
+	                    expiringNames: data
+	                });
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'h1',
+	                'div',
 	                null,
-	                'Testing'
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    this.state.title
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    this.state.expiringNames
+	                )
 	            );
 	        }
 	    }]);
@@ -21839,7 +21820,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.findById = exports.findAll = undefined;
+	exports.getExpiringNames = undefined;
 	
 	var _request = __webpack_require__(185);
 	
@@ -21849,22 +21830,9 @@
 	
 	var baseURL = "";
 	
-	var findAll = exports.findAll = function findAll(values) {
-	    var qs = "";
-	    if (values) {
-	        qs = Object.keys(values).map(function (key) {
-	            return encodeURIComponent(key) + '=' + encodeURIComponent(values[key]);
-	        }).join('&');
-	        qs = "?" + qs;
-	    }
-	    return (0, _request2.default)({ url: baseURL + "/products" + qs }).then(function (data) {
-	        return data = JSON.parse(data);
-	    });
-	};
-	
-	var findById = exports.findById = function findById() {
-	    return (0, _request2.default)({ url: baseURL + "/products/" + id }).then(function (data) {
-	        return data = JSON.parse(data);
+	var getExpiringNames = exports.getExpiringNames = function getExpiringNames() {
+	    return (0, _request2.default)({ url: baseURL + "/getExpiringNames" }).then(function (data) {
+	        return data;
 	    });
 	};
 
